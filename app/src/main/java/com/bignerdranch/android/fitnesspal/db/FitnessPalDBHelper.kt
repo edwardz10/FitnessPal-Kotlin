@@ -9,21 +9,24 @@ import com.bignerdranch.android.fitnesspal.db.dml.DataLoader
 
 class FitnessPalDBHelper(context: Context) : SQLiteOpenHelper (context, DATABASE_NAME, null, VERSION) {
 
-    private var database: SQLiteDatabase? = null
-    private var dataLoader: DataLoader? = null
+    private lateinit var database: SQLiteDatabase
+    private lateinit var dataLoader: DataLoader
+
+    private @Volatile var initialized: Boolean = false
 
     override fun onCreate(db: SQLiteDatabase) {
         this.database = db
-        dataLoader = BasicDataLoader(writableDatabase)
+        dataLoader = BasicDataLoader(this.database)
 
-        dataLoader!!.ddl()
-        dataLoader!!.dml()
+        dataLoader.ddl()
+        dataLoader.dml()
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
 
-    private fun getDatabase(): SQLiteDatabase? {
-        if (database == null) {
+    public fun getDatabase(): SQLiteDatabase {
+        if (!initialized) {
+            initialized = true
             database = writableDatabase
         }
 

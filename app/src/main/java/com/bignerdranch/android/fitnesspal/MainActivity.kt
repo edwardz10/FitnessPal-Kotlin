@@ -11,7 +11,7 @@ import com.bignerdranch.android.fitnesspal.model.Set
 
 class MainActivity : AppCompatActivity() {
 
-    private var fitnessPalDBHelper: FitnessPalDBHelper? = null
+    private lateinit var fitnessPalDBHelper: FitnessPalDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,32 +20,31 @@ class MainActivity : AppCompatActivity() {
 
         fitnessPalDBHelper = FitnessPalDBHelper(this)
 
-        for (measurement in Measurement.getMeasurements(fitnessPalDBHelper!!.readableDatabase)) {
+        for (measurement in Measurement.getMeasurements(fitnessPalDBHelper.getDatabase())) {
             Log.i(DbConstants.DATABASE_NAME, measurement.toString())
         }
 
-        for (exercise in Exercise.getExercises(fitnessPalDBHelper!!.readableDatabase)) {
+        for (exercise in Exercise.getExercises(fitnessPalDBHelper.getDatabase())) {
             Log.i(DbConstants.DATABASE_NAME, exercise.toString())
         }
 
-        for (trainingSessionType in TrainingSessionType.getTrainingSessionTypes(fitnessPalDBHelper!!.readableDatabase)) {
+        for (trainingSessionType in TrainingSessionType.getTrainingSessionTypes(fitnessPalDBHelper.getDatabase())) {
             Log.i(DbConstants.DATABASE_NAME, trainingSessionType.toString())
         }
 
         val backBicepsSessionType =
-            TrainingSessionType.getTrainingSessionTypeByName(fitnessPalDBHelper!!.readableDatabase,
+            TrainingSessionType.getTrainingSessionTypeByName(fitnessPalDBHelper.getDatabase(),
                 DataConstants.BACK_BICEPS
             )
 
         for (set in Set.getSetsByTrainingSessionType(
-            fitnessPalDBHelper!!.readableDatabase,
-            backBicepsSessionType
-        )) {
+            fitnessPalDBHelper.getDatabase(),
+            backBicepsSessionType)) {
             Log.i(DbConstants.DATABASE_NAME, set.toString())
         }
 
         val traningSessions = TrainingSession.getTrainingSessionsByTrainingSessionType(
-            fitnessPalDBHelper!!.readableDatabase, backBicepsSessionType!!
+            fitnessPalDBHelper.getDatabase(), backBicepsSessionType!!
         )
 
         for (trainingSession in traningSessions) {
@@ -53,10 +52,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         val trainingSession = TrainingSession.pickSetByTrainingSessionTypeName(
-            fitnessPalDBHelper!!.readableDatabase, traningSessions, DataConstants.BACK_BICEPS
+            fitnessPalDBHelper.getDatabase(), traningSessions, DataConstants.BACK_BICEPS
         )
 
-        val reps = Rep.getRepsByTrainingSession(fitnessPalDBHelper!!.readableDatabase, trainingSession!!)
+        val reps = Rep.getRepsByTrainingSession(fitnessPalDBHelper.getDatabase(), trainingSession!!)
         for (rep in reps) {
             Log.i(DbConstants.DATABASE_NAME, rep.toString())
         }
