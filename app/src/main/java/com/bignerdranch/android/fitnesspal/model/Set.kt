@@ -6,9 +6,6 @@ import java.util.*
 
 class Set {
     var id: Long? = null
-        set(id) {
-            field = this.id
-        }
     private val count: Int?
     private val trainingSessionTypeId: Long?
     private val exerciseId: Long?
@@ -53,11 +50,11 @@ class Set {
 
         fun getSetsByTrainingSessionType(
             database: SQLiteDatabase,
-            trainingSessionType: TrainingSessionType
+            trainingSessionType: TrainingSessionType?
         ): List<Set> {
             val sets = LinkedList<Set>()
             val cursor = database.rawQuery(
-                "select * from sets where training_session_type_id=" + trainingSessionType.id!!, null
+                "select * from sets where training_session_type_id=" + trainingSessionType?.id!!, null
             )
 
             try {

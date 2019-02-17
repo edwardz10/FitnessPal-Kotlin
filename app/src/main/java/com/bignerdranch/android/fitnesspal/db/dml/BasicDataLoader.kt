@@ -53,10 +53,10 @@ class BasicDataLoader(database: SQLiteDatabase) : AbstractDataLoader(database) {
 
     public override val exercises: List<ContentValues>
         get() {
-            val measurementInKg = Measurement.getMeasurementByName(database!!, KILOGRAMS)
-            val measurementInMeters = Measurement.getMeasurementByName(database!!, METERS)
-            val measurementInSecs = Measurement.getMeasurementByName(database!!, SECONDS)
-            val measurementInTimes = Measurement.getMeasurementByName(database!!, TIMES)
+            val measurementInKg = Measurement.getMeasurementByName(database, KILOGRAMS)
+            val measurementInMeters = Measurement.getMeasurementByName(database, METERS)
+            val measurementInSecs = Measurement.getMeasurementByName(database, SECONDS)
+            val measurementInTimes = Measurement.getMeasurementByName(database, TIMES)
 
             return Arrays.asList(
                 Exercise.getContentValues(Exercise(BARBELL_SQUATS, measurementInKg!!)),
@@ -98,17 +98,17 @@ class BasicDataLoader(database: SQLiteDatabase) : AbstractDataLoader(database) {
 
     public override val sets: List<ContentValues>
         get() {
-            val backTrainingSessionType = TrainingSessionType.getTrainingSessionTypeByName(database!!, BACK_BICEPS)
+            val backTrainingSessionType = TrainingSessionType.getTrainingSessionTypeByName(database, BACK_BICEPS)
 
-            val treadMill = Exercise.getExerciseByName(database!!, TREADMILL)
-            val pullUps = Exercise.getExerciseByName(database!!, PULL_UPS)
-            val dumpbellOneArm = Exercise.getExerciseByName(database!!, DUMPBELL_ONE_ARM_ROW)
-            val horizontalRow = Exercise.getExerciseByName(database!!, HORIZONTAL_ROW)
-            val backExtension = Exercise.getExerciseByName(database!!, BACK_EXTENSION)
-            val barbellBicepsCurl = Exercise.getExerciseByName(database!!, BARBELL_BICEPS_CURL)
-            val dumpBellBicepsCurl = Exercise.getExerciseByName(database!!, DUMPBELL_BICEPS_CURL)
-            val legPress = Exercise.getExerciseByName(database!!, LEG_PRESS)
-            val plank = Exercise.getExerciseByName(database!!, PLANK)
+            val treadMill = Exercise.getExerciseByName(database, TREADMILL)
+            val pullUps = Exercise.getExerciseByName(database, PULL_UPS)
+            val dumpbellOneArm = Exercise.getExerciseByName(database, DUMPBELL_ONE_ARM_ROW)
+            val horizontalRow = Exercise.getExerciseByName(database, HORIZONTAL_ROW)
+            val backExtension = Exercise.getExerciseByName(database, BACK_EXTENSION)
+            val barbellBicepsCurl = Exercise.getExerciseByName(database, BARBELL_BICEPS_CURL)
+            val dumpBellBicepsCurl = Exercise.getExerciseByName(database, DUMPBELL_BICEPS_CURL)
+            val legPress = Exercise.getExerciseByName(database, LEG_PRESS)
+            val plank = Exercise.getExerciseByName(database, PLANK)
 
             return Arrays.asList(
                 Set.getContentValues(Set(1, backTrainingSessionType!!, treadMill!!)),
@@ -125,7 +125,7 @@ class BasicDataLoader(database: SQLiteDatabase) : AbstractDataLoader(database) {
 
     public override val trainingSessions: List<ContentValues>
         get() {
-            val chestTrainingSessionType = TrainingSessionType.getTrainingSessionTypeByName(database!!, BACK_BICEPS)
+            val chestTrainingSessionType = TrainingSessionType.getTrainingSessionTypeByName(database, BACK_BICEPS)
 
             return Arrays.asList(
                 TrainingSession.getContentValues(
@@ -151,20 +151,20 @@ class BasicDataLoader(database: SQLiteDatabase) : AbstractDataLoader(database) {
 
     public override val reps: List<ContentValues>
         get() {
-            val backTrainingSessionType = TrainingSessionType.getTrainingSessionTypeByName(database!!, BACK_BICEPS)
+            val backTrainingSessionType = TrainingSessionType.getTrainingSessionTypeByName(database, BACK_BICEPS)
             val trainingSession =
-                TrainingSession.getTrainingSessionsByTrainingSessionType(database!!, backTrainingSessionType!!)[0]
+                TrainingSession.getTrainingSessionsByTrainingSessionType(database, backTrainingSessionType!!)[0]
 
-            val sets = Set.getSetsByTrainingSessionType(database!!, backTrainingSessionType)
-            val treadmillSet = Set.pickSetByExerciseName(database!!, sets, TREADMILL)
-            val pullUpSet = Set.pickSetByExerciseName(database!!, sets, PULL_UPS)
-            val dumpbellOneArmSet = Set.pickSetByExerciseName(database!!, sets, DUMPBELL_ONE_ARM_ROW)
-            val horizontalRowSet = Set.pickSetByExerciseName(database!!, sets, HORIZONTAL_ROW)
-            val backExtensionSet = Set.pickSetByExerciseName(database!!, sets, BACK_EXTENSION)
-            val dumpbellBicepsCurlSet = Set.pickSetByExerciseName(database!!, sets, DUMPBELL_BICEPS_CURL)
-            val barbellBicepsCurlSet = Set.pickSetByExerciseName(database!!, sets, DUMPBELL_BICEPS_CURL)
-            val legPressSet = Set.pickSetByExerciseName(database!!, sets, LEG_PRESS)
-            val plankSet = Set.pickSetByExerciseName(database!!, sets, PLANK)
+            val sets = Set.getSetsByTrainingSessionType(database, backTrainingSessionType)
+            val treadmillSet = Set.pickSetByExerciseName(database, sets, TREADMILL)
+            val pullUpSet = Set.pickSetByExerciseName(database, sets, PULL_UPS)
+            val dumpbellOneArmSet = Set.pickSetByExerciseName(database, sets, DUMPBELL_ONE_ARM_ROW)
+            val horizontalRowSet = Set.pickSetByExerciseName(database, sets, HORIZONTAL_ROW)
+            val backExtensionSet = Set.pickSetByExerciseName(database, sets, BACK_EXTENSION)
+            val dumpbellBicepsCurlSet = Set.pickSetByExerciseName(database, sets, DUMPBELL_BICEPS_CURL)
+            val barbellBicepsCurlSet = Set.pickSetByExerciseName(database, sets, DUMPBELL_BICEPS_CURL)
+            val legPressSet = Set.pickSetByExerciseName(database, sets, LEG_PRESS)
+            val plankSet = Set.pickSetByExerciseName(database, sets, PLANK)
 
             return Arrays.asList(
                 Rep.getContentValues(Rep(1, 1000.0f, treadmillSet!!, trainingSession)),

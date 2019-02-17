@@ -6,11 +6,14 @@ import java.util.*
 
 class Exercise {
     var id: Long? = null
-        set(id) {
-            field = this.id
-        }
     private val name: String
     private val measurementId: Long?
+
+    constructor(id: Long, name: String, measurementId: Long) {
+        this.id = id
+        this.name = name
+        this.measurementId = measurementId
+    }
 
     constructor(name: String, measurement: Measurement) {
         this.name = name

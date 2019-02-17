@@ -6,10 +6,12 @@ import java.util.*
 
 class Measurement {
     var id: Long? = null
-        set(id) {
-            field = this.id
-        }
     private val name: String
+
+    constructor(id: Long, name: String) {
+        this.id = id
+        this.name = name
+    }
 
     constructor(name: String) {
         this.name = name
