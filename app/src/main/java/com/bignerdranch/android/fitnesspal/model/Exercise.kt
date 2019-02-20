@@ -2,6 +2,7 @@ package com.bignerdranch.android.fitnesspal.model
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
+import com.bignerdranch.android.fitnesspal.util.Utils
 import java.util.*
 
 class Exercise {
@@ -18,6 +19,12 @@ class Exercise {
     constructor(name: String, measurement: Measurement) {
         this.name = name
         this.measurementId = measurement.id
+    }
+
+    override fun toString(): String {
+        return ("Exercise(id=" + id
+                + ", name=" + name
+                + ", measurementId=" + measurementId + ")")
     }
 
     companion object {

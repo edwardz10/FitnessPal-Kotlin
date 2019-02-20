@@ -17,6 +17,11 @@ class Measurement {
         this.name = name
     }
 
+    override fun toString(): String {
+        return ("Measurement(id=" + id
+                + ", name=" + name + ")")
+    }
+
     companion object {
 
         fun getContentValues(measurement: Measurement): ContentValues {

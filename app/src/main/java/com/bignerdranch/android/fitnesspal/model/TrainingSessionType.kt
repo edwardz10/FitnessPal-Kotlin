@@ -17,6 +17,11 @@ class TrainingSessionType {
         this.name = name
     }
 
+    override fun toString(): String {
+        return ("TrainingSessionType(id=" + id
+                + ", name=" + name + ")")
+    }
+
     companion object {
 
         fun getContentValues(TrainingSessionType: TrainingSessionType): ContentValues {

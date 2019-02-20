@@ -34,9 +34,9 @@ class TrainingSession {
     }
 
     override fun toString(): String {
-        return ("id=" + id
+        return ("TrainingSession(id=" + id
                 + ", date=" + Utils.millisToDate(date)
-                + ", trainingSessionTypeId=" + trainingSessionTypeId)
+                + ", trainingSessionTypeId=" + trainingSessionTypeId + ")")
     }
 
     companion object {

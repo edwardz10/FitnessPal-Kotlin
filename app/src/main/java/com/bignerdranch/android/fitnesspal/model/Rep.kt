@@ -45,6 +45,14 @@ class Rep {
         this.trainingSessionId = trainingSessionId
     }
 
+    override fun toString(): String {
+        return ("Rep(id=" + id
+                + ", times=" + times
+                + ", measurementNumber=" + measurementNumber
+                + ", setId=" + setId
+                + ", trainingSessionId=" + trainingSessionId + ")")
+    }
+
     companion object {
 
         fun getContentValues(rep: Rep): ContentValues {

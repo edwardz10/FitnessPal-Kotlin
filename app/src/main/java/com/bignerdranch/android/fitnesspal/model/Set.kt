@@ -38,6 +38,13 @@ class Set {
         this.exerciseId = exerciseId
     }
 
+    override fun toString(): String {
+        return ("Set(id=" + id
+                + ", count=" + count
+                + ", trainingSessionTypeId=" + trainingSessionTypeId
+                + ", exerciseId=" + exerciseId + ")")
+    }
+
     companion object {
 
         fun getContentValues(set: Set): ContentValues {
