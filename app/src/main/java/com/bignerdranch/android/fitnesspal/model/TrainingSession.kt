@@ -50,32 +50,35 @@ class TrainingSession {
 
         fun getTrainingSessionsByTrainingSessionType(
             database: SQLiteDatabase,
-            trainingSessionType: TrainingSessionType
+            trainingSessionType: TrainingSessionType?
         ): List<TrainingSession> {
             val trainingSessions = LinkedList<TrainingSession>()
-            val cursor = database.rawQuery(
-                "select * from training_sessions where training_session_type_id=" + trainingSessionType.id!!, null
-            )
 
-            try {
-                cursor.moveToFirst()
+            trainingSessionType?.let {
+                val cursor = database.rawQuery(
+                    "select * from training_sessions where training_session_type_id=" + trainingSessionType.id!!, null
+                )
 
-                val idColumn = cursor.getColumnIndex("_id")
-                val dateColumn = cursor.getColumnIndex("date")
-                val trainingSessionTypeIdColumn = cursor.getColumnIndex("training_session_type_id")
+                try {
+                    cursor.moveToFirst()
 
-                while (!cursor.isAfterLast) {
-                    trainingSessions.add(
-                        TrainingSession(
-                            cursor.getLong(idColumn),
-                            cursor.getLong(dateColumn),
-                            cursor.getLong(trainingSessionTypeIdColumn)
+                    val idColumn = cursor.getColumnIndex("_id")
+                    val dateColumn = cursor.getColumnIndex("date")
+                    val trainingSessionTypeIdColumn = cursor.getColumnIndex("training_session_type_id")
+
+                    while (!cursor.isAfterLast) {
+                        trainingSessions.add(
+                            TrainingSession(
+                                cursor.getLong(idColumn),
+                                cursor.getLong(dateColumn),
+                                cursor.getLong(trainingSessionTypeIdColumn)
+                            )
                         )
-                    )
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
+                } finally {
+                    cursor.close()
                 }
-            } finally {
-                cursor.close()
             }
 
             return trainingSessions

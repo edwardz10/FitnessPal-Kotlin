@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.bignerdranch.android.fitnesspal.db.DbConstants.Companion.DATABASE_NAME
 import com.bignerdranch.android.fitnesspal.db.dml.BasicDataLoader
 import com.bignerdranch.android.fitnesspal.db.dml.DataLoader
+import com.bignerdranch.android.fitnesspal.db.dml.ExcelDataLoader
 
 class FitnessPalDBHelper(context: Context) : SQLiteOpenHelper (context, DATABASE_NAME, null, VERSION) {
 
@@ -16,7 +17,8 @@ class FitnessPalDBHelper(context: Context) : SQLiteOpenHelper (context, DATABASE
 
     override fun onCreate(db: SQLiteDatabase) {
         this.database = db
-        dataLoader = BasicDataLoader(this.database)
+//        dataLoader = BasicDataLoader(this.database)
+        dataLoader = ExcelDataLoader(this.database)
 
         dataLoader.ddl()
         dataLoader.dml()

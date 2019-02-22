@@ -67,36 +67,39 @@ class Rep {
 
         fun getRepsByTrainingSession(
             database: SQLiteDatabase,
-            trainingSession: TrainingSession
+            trainingSession: TrainingSession?
         ): List<Rep> {
             val reps = LinkedList<Rep>()
-            val cursor = database.rawQuery(
-                "select * from reps where training_session_id=" + trainingSession.id!!, null
-            )
 
-            try {
-                cursor.moveToFirst()
+            trainingSession?.let {
+                val cursor = database.rawQuery(
+                    "select * from reps where training_session_id=" + trainingSession.id!!, null
+                )
 
-                val idColumn = cursor.getColumnIndex("_id")
-                val timesColumn = cursor.getColumnIndex("times")
-                val measurementNumber = cursor.getColumnIndex("measurement_number")
-                val setIdColumn = cursor.getColumnIndex("set_id")
-                val trainingSessionTypeIdColumn = cursor.getColumnIndex("training_session_id")
+                try {
+                    cursor.moveToFirst()
 
-                while (!cursor.isAfterLast) {
-                    reps.add(
-                        Rep(
-                            cursor.getLong(idColumn),
-                            cursor.getInt(timesColumn),
-                            cursor.getFloat(measurementNumber),
-                            cursor.getLong(setIdColumn),
-                            cursor.getLong(trainingSessionTypeIdColumn)
+                    val idColumn = cursor.getColumnIndex("_id")
+                    val timesColumn = cursor.getColumnIndex("times")
+                    val measurementNumber = cursor.getColumnIndex("measurement_number")
+                    val setIdColumn = cursor.getColumnIndex("set_id")
+                    val trainingSessionTypeIdColumn = cursor.getColumnIndex("training_session_id")
+
+                    while (!cursor.isAfterLast) {
+                        reps.add(
+                            Rep(
+                                cursor.getLong(idColumn),
+                                cursor.getInt(timesColumn),
+                                cursor.getFloat(measurementNumber),
+                                cursor.getLong(setIdColumn),
+                                cursor.getLong(trainingSessionTypeIdColumn)
+                            )
                         )
-                    )
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
+                } finally {
+                    cursor.close()
                 }
-            } finally {
-                cursor.close()
             }
 
             return reps

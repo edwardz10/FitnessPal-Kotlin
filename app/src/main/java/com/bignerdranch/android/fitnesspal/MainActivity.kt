@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val traningSessions = TrainingSession.getTrainingSessionsByTrainingSessionType(
-            fitnessPalDBHelper.getDatabase(), backBicepsSessionType!!
+            fitnessPalDBHelper.getDatabase(), backBicepsSessionType
         )
 
         for (trainingSession in traningSessions) {
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             fitnessPalDBHelper.getDatabase(), traningSessions, DataConstants.BACK_BICEPS
         )
 
-        val reps = Rep.getRepsByTrainingSession(fitnessPalDBHelper.getDatabase(), trainingSession!!)
+        val reps = Rep.getRepsByTrainingSession(fitnessPalDBHelper.getDatabase(), trainingSession)
         for (rep in reps) {
             Log.i(DbConstants.DATABASE_NAME, rep.toString())
         }

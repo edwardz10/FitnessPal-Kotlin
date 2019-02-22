@@ -60,31 +60,34 @@ class Set {
             trainingSessionType: TrainingSessionType?
         ): List<Set> {
             val sets = LinkedList<Set>()
-            val cursor = database.rawQuery(
-                "select * from sets where training_session_type_id=" + trainingSessionType?.id!!, null
-            )
 
-            try {
-                cursor.moveToFirst()
+            trainingSessionType?.let {
+                val cursor = database.rawQuery(
+                    "select * from sets where training_session_type_id=" + trainingSessionType?.id!!, null
+                )
 
-                val idColumn = cursor.getColumnIndex("_id")
-                val countColumn = cursor.getColumnIndex("count")
-                val exerciseIdColumn = cursor.getColumnIndex("exercise_id")
-                val trainingSessionTypeIdColumn = cursor.getColumnIndex("training_session_type_id")
+                try {
+                    cursor.moveToFirst()
 
-                while (!cursor.isAfterLast) {
-                    sets.add(
-                        Set(
-                            cursor.getLong(idColumn),
-                            cursor.getInt(countColumn),
-                            cursor.getLong(trainingSessionTypeIdColumn),
-                            cursor.getLong(exerciseIdColumn)
+                    val idColumn = cursor.getColumnIndex("_id")
+                    val countColumn = cursor.getColumnIndex("count")
+                    val exerciseIdColumn = cursor.getColumnIndex("exercise_id")
+                    val trainingSessionTypeIdColumn = cursor.getColumnIndex("training_session_type_id")
+
+                    while (!cursor.isAfterLast) {
+                        sets.add(
+                            Set(
+                                cursor.getLong(idColumn),
+                                cursor.getInt(countColumn),
+                                cursor.getLong(trainingSessionTypeIdColumn),
+                                cursor.getLong(exerciseIdColumn)
+                            )
                         )
-                    )
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
+                } finally {
+                    cursor.close()
                 }
-            } finally {
-                cursor.close()
             }
 
             return sets
