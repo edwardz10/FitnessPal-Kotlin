@@ -63,7 +63,7 @@ class Set {
 
             trainingSessionType?.let {
                 val cursor = database.rawQuery(
-                    "select * from sets where training_session_type_id=" + trainingSessionType?.id!!, null
+                    "select * from sets where training_session_type_id=" + trainingSessionType.id, null
                 )
 
                 try {

@@ -1,5 +1,6 @@
 package com.bignerdranch.android.fitnesspal
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -13,8 +14,17 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var fitnessPalDBHelper: FitnessPalDBHelper
 
+    companion object {
+        lateinit var context: Context
+
+        fun context(): Context {
+            return context
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        context = this.applicationContext
 
         setContentView(R.layout.activity_main)
 
@@ -60,4 +70,5 @@ class MainActivity : AppCompatActivity() {
             Log.i(DbConstants.DATABASE_NAME, rep.toString())
         }
     }
+
 }
