@@ -59,7 +59,7 @@ class BasicDataLoader(database: SQLiteDatabase) : AbstractDataLoader(database) {
             val measurementInTimes = Measurement.getMeasurementByName(database, TIMES)
 
             return Arrays.asList(
-                Exercise.getContentValues(Exercise(BARBELL_SQUATS, measurementInKg!!)),
+                Exercise.getContentValues(Exercise(BARBELL_SQUATS, measurementInKg)),
                 Exercise.getContentValues(Exercise(BARBELL_DEADLIFT, measurementInKg)),
                 Exercise.getContentValues(Exercise(BARBELL_LUNGES, measurementInKg)),
                 Exercise.getContentValues(Exercise(BARBELL_BENCH_PRESS, measurementInKg)),
@@ -81,11 +81,11 @@ class BasicDataLoader(database: SQLiteDatabase) : AbstractDataLoader(database) {
                 Exercise.getContentValues(Exercise(BACK_EXTENSION, measurementInKg)),
                 Exercise.getContentValues(Exercise(LEG_PRESS, measurementInKg)),
                 Exercise.getContentValues(Exercise(HORIZONTAL_ROW, measurementInKg)),
-                Exercise.getContentValues(Exercise(PULL_UPS, measurementInTimes!!)),
+                Exercise.getContentValues(Exercise(PULL_UPS, measurementInTimes)),
                 Exercise.getContentValues(Exercise(CHIN_UPS, measurementInTimes)),
-                Exercise.getContentValues(Exercise(PLANK, measurementInSecs!!)),
+                Exercise.getContentValues(Exercise(PLANK, measurementInSecs)),
                 Exercise.getContentValues(Exercise(AB_ROLLOUTS, measurementInTimes)),
-                Exercise.getContentValues(Exercise(TREADMILL, measurementInMeters!!))
+                Exercise.getContentValues(Exercise(TREADMILL, measurementInMeters))
             )
         }
 

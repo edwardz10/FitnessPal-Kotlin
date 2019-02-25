@@ -7,12 +7,12 @@ import java.util.*
 
 class TrainingSession {
     var id: Long? = null
-    val date: Long?
+    val date: Long
     val trainingSessionTypeId: Long?
 
     constructor(
-        id: Long?,
-        date: Long?,
+        id: Long,
+        date: Long,
         trainingSessionTypeId: Long?
     ) {
         this.id = id
@@ -21,12 +21,12 @@ class TrainingSession {
     }
 
     constructor(
-        date: Long?,
+        date: Long,
         trainingSessionType: TrainingSessionType
     ) : this(date, trainingSessionType.id)
 
     constructor(
-        date: Long?,
+        date: Long,
         trainingSessionTypeId: Long?
     ) {
         this.date = date

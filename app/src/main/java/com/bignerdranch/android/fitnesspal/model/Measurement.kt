@@ -48,8 +48,8 @@ class Measurement {
             return measurements
         }
 
-        fun getMeasurementByName(database: SQLiteDatabase, name: String): Measurement? {
-            var measurement: Measurement? = null
+        fun getMeasurementByName(database: SQLiteDatabase, name: String): Measurement {
+            lateinit var measurement: Measurement
             val query = "select * from measurements where name = '$name';"
             val cursor = database.rawQuery(query, null)
 

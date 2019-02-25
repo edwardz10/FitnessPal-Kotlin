@@ -7,8 +7,8 @@ import java.util.*
 
 class Exercise {
     var id: Long? = null
-    private val name: String
-    private val measurementId: Long?
+    val name: String
+    val measurementId: Long?
 
     constructor(id: Long, name: String, measurementId: Long) {
         this.id = id
