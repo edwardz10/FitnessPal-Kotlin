@@ -36,13 +36,15 @@ import com.bignerdranch.android.fitnesspal.model.Measurement
 import com.bignerdranch.android.fitnesspal.model.TrainingSessionType
 import com.bignerdranch.android.fitnesspal.util.Utils
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.ss.formula.functions.NumericFunction.LOG
 import org.apache.poi.ss.usermodel.Workbook
+import java.lang.Exception
 import java.util.*
 
 class ExcelDataLoader(database: SQLiteDatabase) : AbstractDataLoader(database) {
 
     val FITNESS_REPORT_FILE = "fitness_report.xls"
-    var workbook : Workbook
+    var workbook: Workbook
 
     init {
         Log.i(DbConstants.DATABASE_NAME, "Init block in ExcelDataLoader")
@@ -63,47 +65,49 @@ class ExcelDataLoader(database: SQLiteDatabase) : AbstractDataLoader(database) {
     override val exercises: List<ContentValues>
         get() {
             return Arrays.asList(
-                Exercise.getContentValues(Utils.exerciseFromName(BARBELL_SQUATS, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(BARBELL_DEADLIFT, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(BARBELL_LUNGES, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(BARBELL_BENCH_PRESS, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(BARBELL_LYING_PULLOVER, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(BARBELL_MILITARY_PRESS, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(BARBELL_FRONT_RAISE, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(BARBELL_SHRUGS, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(BARBELL_BICEPS_CURL, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(DUMPBELL_LATERAL_RAISE, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(DUMPBELL_LUNGES, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(DUMPBELL_OVERHEAD_PRESS, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(DUMPBELL_CHEST_FLYE, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(DUMPBELL_CHEST_PULLOVER, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(DUMPBELL_FRONT_SQUAT, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(DUMPBELL_ARNOLD_PRESS, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(DUMPBELL_BICEPS_CURL, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(DUMPBELL_ONE_ARM_ROW, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(BACK_EXTENSION, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(LEG_PRESS, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(HORIZONTAL_ROW, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(PULL_UPS, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(CHIN_UPS, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(PLANK, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(AB_ROLLOUTS, database)),
-                Exercise.getContentValues(Utils.exerciseFromName(TREADMILL, database))
+                BARBELL_SQUATS, BARBELL_DEADLIFT, BARBELL_LUNGES, BARBELL_BENCH_PRESS, BARBELL_LYING_PULLOVER,
+                BARBELL_MILITARY_PRESS, BARBELL_FRONT_RAISE, BARBELL_SHRUGS, BARBELL_BICEPS_CURL,
+                DUMPBELL_LATERAL_RAISE, DUMPBELL_LUNGES, DUMPBELL_OVERHEAD_PRESS, DUMPBELL_CHEST_FLYE,
+                DUMPBELL_CHEST_PULLOVER, DUMPBELL_FRONT_SQUAT, DUMPBELL_ARNOLD_PRESS, DUMPBELL_BICEPS_CURL,
+                DUMPBELL_ONE_ARM_ROW, BACK_EXTENSION, LEG_PRESS, HORIZONTAL_ROW, PULL_UPS, CHIN_UPS, PLANK,
+                AB_ROLLOUTS, TREADMILL
             )
+                .map { Exercise.getContentValues(Utils.exerciseFromName(it, database)) }
         }
 
     override val trainingSessionTypes: List<ContentValues> by lazy {
-        val typesLocal = LinkedList<ContentValues>()
-
-        for (i in 0 .. workbook.numberOfSheets - 1) {
-            typesLocal.add(TrainingSessionType.getContentValues(TrainingSessionType(workbook.getSheetAt(i).sheetName)))
-        }
+        val typesLocal = (0..workbook.numberOfSheets - 1)
+            .toList()
+            .map { TrainingSessionType.getContentValues(TrainingSessionType(workbook.getSheetAt(it).sheetName)) }
 
         typesLocal
     }
 
     override val sets: List<ContentValues> by lazy {
         val setsLocal = LinkedList<ContentValues>()
+
+        (0 until workbook.numberOfSheets)
+            .toList()
+            .forEach {
+                val sheet = workbook.getSheetAt(it)
+                val trainingSessionType = sheet.sheetName
+                val header = sheet.getRow(0)
+
+                if (header != null) {
+                    (header.firstCellNum..header.lastCellNum)
+                        .toList()
+                        .forEach {
+                            val cell = header.getCell(it)
+
+                            if (cell != null && !cell.stringCellValue.isEmpty()) {
+                                Log.i(DbConstants.DATABASE_NAME, "Header: ${cell.stringCellValue}")
+                            }
+
+                        }
+                }
+
+            }
+
         setsLocal
     }
 
